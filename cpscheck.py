@@ -1,24 +1,59 @@
 from tkinter import *
 from tkinter import messagebox
+from PIL import ImageTk,Image
 
 # Defining Main Window
 root = Tk()
 root.title("CPS Checker")
 root.config(bg = "#8D98A7")
+
 # Global Check Variables
 click_first = True
 time_first = True
 time_range = None
 
+# App Icons
+turtle = ImageTk.PhotoImage(Image.open("icons/turtle.png"))
+mouse = ImageTk.PhotoImage(Image.open("icons/mouse.png"))
+rabbit = ImageTk.PhotoImage(Image.open("icons/rabbit.png"))
+cheetah = ImageTk.PhotoImage(Image.open("icons/cheetah.png"))
+
+# Game Reset Function (Occurs After Timer Ends)
 def game_reset():
-    global click_first,time_first,time_range,time_dur
+    global click_first,time_first,time_range,time_dur,initial_click
+    
+    # Resetting All Variables
     click_first = True
     time_first = True
     time_range = None
     time_dur = 0
     initial_click = 0
     
-
+def update_window():
+    global turtle,mouse,rabbit,cheetah
+    game_reset()
+    
+    new_window = Toplevel()
+        
+    if clickpers <= 3.33:
+        icon = Label(new_window,image = turtle)
+    elif clickpers > 3.33 and clickpers <= 6.66:
+        icon = Label(new_window,image = mouse)
+    elif clickpers > 6.66 and clickpers <= 9.99:
+        icon = Label(new_window,image = rabbit)
+    elif clickpers > 9.99:
+        icon = Label(new_window,image = cheetah)
+    icon.pack()
+    
+    stat_label = Label(new_window,text="You Clicked with the Speed of "+str(clickpers)+" CPS")
+    stat_label.pack()
+    
+   
+    timer2.config(text="0")
+    cpscheck2.config(text="0")
+    main_button.config(text="Click Here to Start!",state=DISABLED)
+    root.after(2000, enable_button)
+    
 def time_update():
     global time_first,time_dur,timer2,initial_click,clickpers,cpscheck2
     
@@ -33,17 +68,11 @@ def time_update():
         timer2.config(text=time_dur)
         timer2.after(100,time_update)
     else:
-        new_window = Toplevel()
-        
-        stat_label = Label(new_window,text="You Clicked with the Speed of "+str(clickpers)+" CPS")
-        game_reset()
-        timer2.config(text="0")
-        cpscheck2.config(text="0")
-        main_button.config(text="Click Here to Start!")
-        stat_label.pack()
+        update_window()
         
         
-    
+def enable_button():
+    main_button.config(text="Click Here to Start!",state=NORMAL)
     
 def click():
     global time_range,initial_click
@@ -59,9 +88,12 @@ def click():
         main_button.config(text=initial_click)
     
 def settimer(sec):
-    global time_range
-    time_range = sec
-    main_button.config(text="Click Here to Start!\nTimer: "+str(time_range)+"s")
+    global time_range,click_first
+    if time_range != None and not(click_first):
+        pass
+    else:
+        time_range = sec
+        main_button.config(text="Click Here to Start!\nTimer: "+str(time_range)+"s")
 
 timer_frame = LabelFrame(root,borderwidth=0,bg="#8D98A7")
 timer_frame.grid(row=0,column=0,sticky=E)
