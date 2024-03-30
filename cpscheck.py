@@ -7,6 +7,8 @@ root = Tk()
 root.title("CPS Checker")
 root.config(bg = "#8D98A7")
 
+root.resizable(False, False)
+
 # Global Check Variables
 click_first = True
 time_first = True
@@ -41,6 +43,8 @@ def update_window():
     # Creating a New Window and defining its color
     new_window = Toplevel()
     new_window.config(bg="#8D98A7")
+    
+    new_window.resizable(False, False)
         
     # Creating a Text LabelFrame and Putting Text Inside It
     TextFrame = LabelFrame(new_window,bg="#8D98A7",borderwidth=0)
