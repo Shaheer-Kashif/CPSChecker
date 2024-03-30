@@ -3,8 +3,8 @@ A Program made to test Clicks Per Second. Made using Tkinter and Python
 
 ## Installation For Source Code
 1. Clone This Repository to your machine
-2. Create a Python virtual environment (optional but recommended) using Command Prompt in the Repository Folder:
-```python -m venv venv```
+2. Install Pillow Module using CMD
+```pip install Pillow```
 3. Done!
 
 ## Just Want to Play around with the Software?
